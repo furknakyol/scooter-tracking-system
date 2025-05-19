@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scooter List</title>
+</head>
+<body>
+    <h1>Scooter Listesi</h1>
+    <form method="POST">
+        <input name="model" placeholder="Model" required>
+        <input name="battery_level" placeholder="Batarya (%)" type="number" required>
+        <input name="status" placeholder="Durum" required>
+        <input name="location" placeholder="Konum" required>
+        <button type="submit">Scooter Ekle</button>
+    </form>
+    <ul>
+        {% for s in scooters %}
+            <li>
+                [{{ s.id }}] {{ s.model }} - Batarya: {{ s.battery_level }} - Durum: {{ s.status }} - Konum: {{ s.location }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Ana Sayfa</a>
+</body>
+</html>

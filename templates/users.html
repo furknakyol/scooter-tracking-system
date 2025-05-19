@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kullanıcı Listesi</title>
+</head>
+<body>
+    <h1>Kullanıcı Listesi</h1>
+    <form method="POST">
+        <input name="name" placeholder="Ad Soyad" required>
+        <input name="email" placeholder="Email" required>
+        <input name="phone" placeholder="Telefon" required>
+        <button type="submit">Kullanıcı Ekle</button>
+    </form>
+    <ul>
+        {% for user in users %}
+            <li>
+                [{{ user.id }}] {{ user.name }} - {{ user.email }} - {{ user.phone }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Ana Sayfa</a>
+</body>
+</html>

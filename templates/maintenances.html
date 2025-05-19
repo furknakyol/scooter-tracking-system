@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bakımlar</title>
+</head>
+<body>
+    <h1>Bakım Kayıtları</h1>
+    <form method="POST">
+        <select name="scooter_id" required>
+            <option value="">Scooter Seç</option>
+            {% for scooter in scooters %}
+                <option value="{{ scooter.id }}">{{ scooter.model }}</option>
+            {% endfor %}
+        </select>
+        <input name="date" placeholder="Tarih" required>
+        <input name="description" placeholder="Açıklama" required>
+        <input name="status" placeholder="Durum" required>
+        <button type="submit">Bakım Ekle</button>
+    </form>
+    <ul>
+        {% for maintenance in maintenances %}
+            <li>
+                [{{ maintenance.id }}] Scooter: {{ maintenance.scooter_id }} | {{ maintenance.date }} | {{ maintenance.description }} | {{ maintenance.status }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}">Ana Sayfa</a>
+</body>
+</html>
