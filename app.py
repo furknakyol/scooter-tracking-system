@@ -110,10 +110,12 @@ def maintenances():
         return redirect(url_for('maintenances'))
     all_maintenances = Maintenance.query.all()
     return render_template('maintenances.html', maintenances=all_maintenances, scooters=scooters)
+   
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run()
+
 
 with app.app_context():
     db.create_all()
-    
-    
-if __name__ == '__main__':
-    app.run(debug=True)
