@@ -5,6 +5,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../instance/database.db'
 db = SQLAlchemy(app)
 
+
+with app.app_context():
+    db.create_all()
 class Scooter(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50), nullable=False)
