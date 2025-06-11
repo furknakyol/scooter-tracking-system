@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
+import os
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.secret_key = "3e04a1c61acb45f19b60d2beecf86d10"
 db = SQLAlchemy(app)
 
 class Scooter(db.Model):
@@ -43,9 +46,31 @@ def users():
         name = request.form['name']
         email = request.form['email']
         phone = request.form['phone']
+        
+        #email kontrolü
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash("Bu e-posta ile zaten kayıt yapılmış!", "error")
+            all_users = User.query.all()
+            return render_template("users.html", users=all_users)
+        
+        if phone:
+            existing_phone = User.query.filter_by(phone=phone).first()
+            if existing_phone:
+                flash("Bu telefon numarası ile zaten kayıt yapılmış!", "error")
+                all_users = User.query.all()
+                return render_template("users.html", users=all_users)
+            
+            
         new_user = User(name=name, email=email, phone=phone)
         db.session.add(new_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+            flash("Kullanıcı başarıyla eklendi!", "success")
+        except IntegrityError:
+            db.session.rollback()
+            flash("Kullanıcı eklenirken bir hata oluştu!", "error")
+        
         return redirect(url_for('users'))
     all_users = User.query.all()
     return render_template('users.html', users=all_users)

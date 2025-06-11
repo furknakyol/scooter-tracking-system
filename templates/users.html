@@ -5,6 +5,11 @@
 </head>
 <body>
     <h1>Kullanıcı Listesi</h1>
+
+    {% for message in get_flashed_messages() %}
+        <div>{{ message }}</div>
+    {% endfor %}
+
     <form method="POST">
         <input name="name" placeholder="Ad Soyad" required>
         <input name="email" placeholder="Email" required>
